@@ -1,0 +1,780 @@
+---
+name: laravel-multilingual
+title: "Laravel Multilingual Implementation"
+description: "Comprehensive agent workflow for configuring multi-language support in Laravel, including locale-aware URLs, translation catalogs, JSON Eloquent models, and Filament admin panels"
+version: "1.0.0"
+author: "Saddam Al-Slfi"
+repository: "https://github.com/saddamalsalfi/skills"
+license: "MIT"
+created_at: "2026-09-12"
+---
+
+# Laravel Multilingual Implementation
+
+## 1. Purpose and Scope
+
+Implement a complete, consistent multilingual system across the Laravel application.
+
+The implementation must cover:
+
+- Application interface translations.
+- Public website locale resolution and canonical URLs.
+- Language switching on public pages.
+- Translatable database attributes.
+- Multilingual content-entry forms.
+- Administration interfaces and Filament panels.
+- Language, translation, and translation-key management.
+- RTL and LTR rendering.
+- Validation, automated verification, and deployment behavior.
+
+Treat localization as an ongoing project requirement. Every new or modified user-facing feature must follow the same conventions.
+
+Apply these requirements to the existing architecture. Preserve unrelated application behavior and existing data.
+
+## 2. Required and Conditional Packages
+
+Use:
+
+- `mcamara/laravel-localization` for public website localization.
+- `spatie/laravel-translatable` for translated Eloquent attributes stored as JSON.
+
+When Filament is present:
+
+- Prefer `solution-forest/filament-translate-field` for multilingual content inputs, provided its supported version matches the project.
+- Optionally use `bezhansalleh/filament-language-switch` for administration interface language selection.
+
+Do not assume that a package supports the newest Filament release.
+
+Before installation:
+
+1. Inspect PHP, Laravel, Composer, Livewire, and Filament versions.
+2. Inspect `composer.json` and `composer.lock`.
+3. Review existing localization code, middleware, routes, and translation files.
+4. Verify compatible package versions using official documentation and Composer constraints.
+5. Preserve the installed framework major version unless an upgrade is explicitly part of the task.
+
+For a new Filament installation, verify the latest stable release available at implementation time and check the complete dependency combination.
+
+Do not bypass dependency constraints or silently downgrade the application to accommodate an optional plugin.
+
+If a preferred Filament plugin is incompatible, implement equivalent behavior using supported Filament components and explain the substitution.
+
+## 3. Initial Setup and Required User Input
+
+Install Laravel Localization first, after compatibility checks:
+
+```bash
+composer require mcamara/laravel-localization
+```
+
+Publish its configuration using the command documented for the installed version.
+
+After successful installation, request the supported languages and default language unless the user has already supplied them.
+
+Use this exact example in the request:
+
+```text
+languages: ["ar", "en"]
+language default: ["ar"]
+```
+
+The example is illustrative. Do not assume Arabic and English are the actual project choices.
+
+Normalize the confirmed values internally:
+
+```json
+{
+  "supported_locales": ["ar", "en"],
+  "active_locales": ["ar", "en"],
+  "default_locale": "ar",
+  "fallback_locale": "ar"
+}
+```
+
+Rules:
+
+- The default locale is exactly one locale, stored internally as a string.
+- Supported locales must be unique and valid.
+- Active locales must be a subset of supported locales.
+- The default locale must be supported and active.
+- At least one locale must remain active.
+- Initially activate all confirmed supported locales unless instructed otherwise.
+- Initially use the default locale as the fallback unless the project specifies another supported fallback.
+- Distinguish locale identifiers from language labels and display names.
+
+Continue locale-independent inspection while awaiting the answer. Do not finalize locale-dependent configuration using guessed values.
+
+## 4. Translation Directory and Published Language Files
+
+The sole authoritative directory for local application translation files must be:
+
+`<project-root>/lang/`
+
+Do not use the following directory to store or load application translations:
+
+`<project-root>/public/lang/`
+
+### Required Implementation
+
+1. Configure Laravel to use `<project-root>/lang/` as its default and primary language directory.
+2. Publish Laravel's default language files:
+
+   ```bash
+   php artisan lang:publish
+   ```
+
+3. Inspect the actual publication location. If any default or package language files were published into `<project-root>/public/lang/`, move them into `<project-root>/lang/`.
+4. Preserve the complete relative directory structure, locale directories, filenames, translation keys, and package namespaces during relocation.
+
+   Examples:
+
+   ```text
+   public/lang/ar/auth.php
+   → lang/ar/auth.php
+
+   public/lang/en/validation.php
+   → lang/en/validation.php
+
+   public/lang/vendor/package-name/ar/messages.php
+   → lang/vendor/package-name/ar/messages.php
+   ```
+
+5. If a destination file already exists, compare and merge its translation entries without overwriting existing customizations. Preserve conflicting values for review instead of silently discarding either version.
+6. Remove the corresponding source files from `public/lang/` only after verifying that their contents have been successfully preserved in `lang/`. Remove the source directory if it becomes empty.
+7. Verify at runtime that:
+
+   ```php
+   lang_path() === base_path('lang')
+   ```
+
+   If necessary, configure the language path during application bootstrap, before the translation loader is resolved, using the mechanism supported by the installed Laravel version.
+
+8. Update any application configuration, custom translation loaders, publishing mappings, scripts, and translation-management features that still reference `public/lang/`.
+9. Ensure subsequent language publishing operations target `lang/` wherever configurable. If a third-party publisher writes to `public/lang/`, relocate its published files using the same procedure.
+10. Verify that translations resolve correctly from `lang/` and that no application translation-loading logic depends on `public/lang/`.
+
+### Mandatory Invariant
+
+`<project-root>/lang/` is the default, primary, and authoritative directory for local application translation files.
+
+`<project-root>/public/lang/` must not remain an active translation directory, an archive, or a duplicate translation source.
+
+This requirement applies to initial setup, published language files, future locales, new translation groups, and all subsequent localization changes.
+
+> **Superseded instruction — retained for textual completeness only. Do not execute.**
+>
+> If the hosting environment cannot enforce this directory restriction, report that specific deployment limitation and request an alternative archive location before exposing the files.
+>
+> The translation-directory requirements above supersede this historical archive instruction. No alternative translation archive is required.
+
+Repeated setup must be idempotent and must not overwrite existing customized translations.
+
+## 5. Translation Catalog Structure
+
+Create the following groups for every supported locale:
+
+```text
+lang/
+├── ar/
+│   ├── auth.php
+│   ├── common.php
+│   ├── fields.php
+│   ├── messages.php
+│   ├── pages.php
+│   ├── routes.php
+│   ├── status.php
+│   └── validation.php
+└── en/
+    ├── auth.php
+    ├── common.php
+    ├── fields.php
+    ├── messages.php
+    ├── pages.php
+    ├── routes.php
+    ├── status.php
+    └── validation.php
+```
+
+Replace the example locales with the confirmed locale list.
+
+Add domain-specific groups when needed, such as:
+
+```text
+products.php
+orders.php
+settings.php
+navigation.php
+```
+
+Group responsibilities:
+
+| Group | Responsibility |
+|---|---|
+| `auth.php` | Authentication messages and related interface text |
+| `common.php` | Shared actions and reusable interface text |
+| `fields.php` | Field labels, placeholders, and field help |
+| `messages.php` | Application feedback, success messages, and errors |
+| `pages.php` | Page titles, headings, and descriptions |
+| `routes.php` | Translated route segments when required |
+| `status.php` | Display labels for stable statuses and enums |
+| `validation.php` | Validation messages and localized attribute names |
+
+Retain framework-required structures inside framework translation files.
+
+Use stable semantic keys:
+
+```php
+__('common.actions.save');
+__('fields.product.title');
+__('messages.product.created');
+__('pages.products.index.title');
+__('status.order.pending');
+```
+
+Do not use entire sentences as application translation keys.
+
+Maintain corresponding keys across supported locales. Preserve interpolation placeholders and pluralization behavior.
+
+Do not report copied source-language strings as completed translations.
+
+## 6. Mandatory Translation Coverage
+
+Every application-owned user-visible string must use a translation key.
+
+This includes:
+
+- Page titles and headings.
+- Navigation, breadcrumbs, and menus.
+- Buttons, links, and action labels.
+- Form labels, placeholders, helper text, and validation messages.
+- Tables, filters, empty states, and pagination.
+- Dialogs, tooltips, notifications, and confirmation messages.
+- Authentication, password-reset, and verification interfaces.
+- Filament resource labels, navigation groups, widgets, and custom pages.
+- Accessibility labels and meaningful image descriptions.
+- Application-generated emails, exports, and printable views.
+- User-visible exception and error pages.
+- Relevant metadata, including page descriptions.
+
+Keep machine identifiers stable. Do not translate database column names, permission identifiers, enum backing values, API field names, or internal route names.
+
+Translate the labels associated with those identifiers.
+
+Use placeholders instead of concatenating translated fragments.
+
+Use plural-aware translation facilities where wording depends on quantity.
+
+For JavaScript interfaces, provide an explicit locale-aware translation integration or export only the catalog subset required by that interface.
+
+Do not assume server-side translation helpers are available in browser code.
+
+Package-owned text may use the package's existing translation keys. Add application overrides only where translations or custom wording are needed.
+
+## 7. Central Locale Registry
+
+Create or reuse one authoritative locale registry.
+
+It must provide:
+
+- Supported locales.
+- Active locales.
+- Default locale.
+- Fallback locale.
+- Native language names.
+- Administrative display names.
+- Text direction.
+- Display order.
+
+All localization consumers must derive their configuration from this registry:
+
+- Public routing.
+- Language switchers.
+- Form locale lists.
+- Validation.
+- Filament configuration.
+- Translation management.
+- Background jobs and notifications.
+
+Use durable settings storage consistent with the project and a shared cache where appropriate.
+
+Provide a configuration-based bootstrap fallback so installation commands and migrations work before settings tables exist.
+
+Load effective locale configuration before package services or route registration require it. Do not rely on a late middleware mutation to repair routes already registered with stale settings.
+
+Do not repeatedly query settings for every translation lookup.
+
+Ensure long-running workers reset request or job locale state and receive updated settings.
+
+## 8. Public URL Contract
+
+Public URLs determine the public interface language.
+
+For default locale `ar` and secondary locale `en`:
+
+| Request | Required behavior |
+|---|---|
+| `/` | Render Arabic |
+| `/page/1` | Render Arabic |
+| `/ar` | Redirect to `/` |
+| `/ar/` | Redirect to `/` |
+| `/ar/page/1` | Redirect to `/page/1` |
+| `/en` | Render English |
+| `/en/page/1` | Render English |
+
+Set:
+
+```php
+'hideDefaultLocaleInURL' => true,
+'useAcceptLanguageHeader' => false,
+```
+
+Then verify the complete middleware behavior.
+
+An unprefixed public URL must always resolve to the current default locale. A stored secondary-language preference must not redirect it to another locale.
+
+Do not enable session or cookie redirect behavior that violates this contract.
+
+Apply canonical redirects to GET and HEAD requests. Generate canonical form action URLs directly; do not use a 301 or 302 redirect to normalize requests carrying submitted data.
+
+For default-prefix redirects:
+
+- Use a permanent redirect for GET and HEAD.
+- Preserve the resource path and query parameters.
+- Remove only an exact leading default-locale segment.
+- Avoid substring replacement and redirect loops.
+- Keep redirects on the intended application origin.
+
+Unknown or inactive locale-prefixed URLs must not silently render unrelated default-language content. Return 404 unless an explicit migration redirect exists.
+
+Do not interpret every first path segment as a locale.
+
+Translated route segments are optional unless required by the project. Locale prefixes and translated slugs are separate concerns.
+
+If translated slugs are implemented, maintain correct localized route generation, model binding, and record identity.
+
+Exclude administration panels, API routes, webhooks, assets, and framework transport endpoints from public localization rules unless explicitly designed otherwise.
+
+## 9. Public Language Switcher
+
+Implement a reusable switcher across public layouts, including mobile navigation.
+
+Requirements:
+
+- Show active locales only.
+- Display recognizable language names, preferably native names.
+- Indicate the selected locale.
+- Provide keyboard access and translated accessibility text.
+- Generate the canonical target URL for the same page and resource.
+- Preserve applicable query parameters.
+- Handle translated slugs through the routing layer.
+- Avoid constructing localized URLs through string replacement.
+- Use a defined fallback destination if the target page has no translated equivalent.
+
+A public language choice may be remembered for convenience, but it must never override the public URL contract.
+
+Do not reset users to the homepage when the corresponding page exists.
+
+## 10. Translatable Eloquent Attributes
+
+Install:
+
+```bash
+composer require spatie/laravel-translatable
+```
+
+Use JSON-backed columns for content that genuinely requires multiple language values.
+
+Example:
+
+```json
+{
+  "ar": "عنوان المنتج",
+  "en": "Product title"
+}
+```
+
+For compatible versions, configure models with:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
+class Product extends Model
+{
+    use HasTranslations;
+
+    public $translatable = [
+        'title',
+        'description',
+    ];
+}
+```
+
+Verify the installed version's documented model configuration and APIs.
+
+Use translation-aware accessors for explicit locale reads and writes. Avoid conflicting casts or manual JSON encoding that bypasses package behavior.
+
+Define missing-translation and fallback behavior explicitly.
+
+When converting existing scalar columns:
+
+1. Inspect current values and their source language.
+2. Preserve data through a staged migration.
+3. Backfill existing values under the correct locale.
+4. Validate the resulting JSON before removing the original representation.
+5. Do not invent translations for other locales.
+6. Identify any lossy rollback limitation.
+
+Ensure search, sorting, filtering, and serialization use the intended locale.
+
+## 11. Multilingual Content Forms
+
+Every translatable database attribute must support input for every supported locale.
+
+Use tabs, grouped fields, or another clear locale-aware interface.
+
+Distinguish:
+
+- Interface locale: the language of the administration interface.
+- Editing locale: the language of the content being edited.
+
+Changing the interface locale must not move or overwrite content translations.
+
+Rules:
+
+- Generate locale inputs from the central registry.
+- Identify inactive locales clearly while retaining their stored content.
+- Validate nested locale values explicitly.
+- Require the default-locale value for required content attributes.
+- Make secondary translations optional unless business rules require them.
+- Reject unsupported locale keys.
+- Preserve translations not included in a partial update.
+- Distinguish an omitted translation from an intentional deletion.
+- Show validation errors beside the affected locale input.
+- Do not populate editable fields with fallback text as though an actual translation exists.
+
+When Filament is installed, prefer:
+
+```text
+solution-forest/filament-translate-field
+```
+
+Verify field state, hydration, validation, and persistence against the installed Filament version.
+
+If incompatible, implement the same behavior with supported native fields.
+
+Protect unsaved multilingual input when switching tabs or interface language.
+
+## 12. Administration Language Switching
+
+Administration panels remain outside public locale-prefixed routing.
+
+Examples:
+
+```text
+/admin
+/admin/login
+/admin/products
+/admin/settings/languages
+```
+
+Switching languages must not produce:
+
+```text
+/ar/admin
+/en/admin
+```
+
+Apply this rule to other administration panels using the same interaction model.
+
+Implement language selection through the panel's supported Ajax or Livewire mechanism.
+
+The selected locale must persist across:
+
+- Panel navigation.
+- Livewire updates.
+- Validation responses.
+- Actions and notifications.
+- Subsequent authenticated requests.
+
+Use an appropriate user preference or namespaced session value. Keep panel locale preferences separate from public URL resolution.
+
+Where suitable, use:
+
+```text
+bezhansalleh/filament-language-switch
+```
+
+Verify its actual behavior. Do not claim seamless Ajax switching merely because the panel uses Livewire.
+
+If the plugin reloads the document and the requested interaction must remain Ajax-based, implement the necessary supported integration or report the remaining limitation.
+
+Update visible text and document direction after switching.
+
+Apply locale resolution early enough for panel rendering and persistent Livewire requests. Do not put shared Livewire transport routes inside a public locale-prefix group.
+
+## 13. Administrative Language Settings
+
+Add a real settings page under the administration panel, for example:
+
+```text
+/admin/settings/languages
+```
+
+Link it from the system settings navigation.
+
+Provide three functional areas.
+
+### A. Language Management
+
+Allow authorized administrators to:
+
+- View supported languages.
+- Add a supported language.
+- Edit display names and ordering.
+- Activate or deactivate languages.
+- Select the default locale.
+- Configure the fallback locale.
+
+Enforce registry invariants on every save.
+
+Do not allow deactivation of the current default locale without an atomic replacement.
+
+Adding a language must provision the necessary catalog structure and content-entry fields.
+
+Before public activation, verify required interface translation coverage.
+
+Deactivation must preserve existing translations and model content.
+
+A language preference change must not change the global default locale.
+
+### B. Translation Management
+
+Provide:
+
+- Search by group, key, and text.
+- Locale and missing-translation filters.
+- Side-by-side editing.
+- Clear distinction between actual values and fallbacks.
+- Placeholder validation.
+- Explicit reset-to-source behavior.
+- Auditable changes.
+
+Use root `lang/` catalogs as version-controlled baseline translations.
+
+For runtime administrative edits, prefer a validated database override layer integrated with the translation loader. Reuse an existing equivalent system where available.
+
+Define lookup precedence:
+
+1. Requested-locale database override.
+2. Requested-locale file value.
+3. Configured fallback-locale override and file value.
+4. The application's documented missing-key behavior.
+
+Preserve Laravel translation namespaces and pluralization behavior.
+
+Do not evaluate PHP submitted through the administration interface.
+
+### C. Translation Key Management
+
+Allow authorized administrators to:
+
+- Inspect groups and keys.
+- Add validated keys and localized values.
+- Identify missing or unused keys.
+- Deprecate obsolete keys.
+
+Treat dynamic key discovery as incomplete unless usage can be proven.
+
+Do not rename or delete referenced keys without updating their consumers.
+
+Runtime-created keys must work through the translation loader and have a defined export or reconciliation path into the baseline catalogs.
+
+Manage `routes.php` separately from ordinary interface text. Route translation changes require route validation, collision checks, and the applicable route-cache workflow.
+
+### Permissions and Integrity
+
+Protect all read and write operations with appropriate authorization.
+
+Validate on the server, use CSRF protection, prevent stale updates, and record the actor and relevant changes.
+
+Never treat submitted locale names, groups, or keys as unrestricted filesystem paths.
+
+## 14. Applying Global Locale Changes
+
+A global default-locale change alters public URL semantics.
+
+Before applying it:
+
+- Validate translation readiness.
+- Determine the new canonical URL map.
+- Check route and slug collisions.
+- Update canonical and alternate-language metadata.
+- Coordinate route-cache and settings-cache updates.
+- Preserve content independently of the default locale.
+
+Document how previously unprefixed URLs will behave under the new default.
+
+Do not claim those URLs retain their old language when the contract assigns them to the current default.
+
+If the route architecture requires cache rebuilding, show the settings change as pending until the new routing state is ready.
+
+Do not report immediate activation while requests still use stale localized routes.
+
+## 15. RTL, LTR, and Locale-Aware Presentation
+
+Set the document language and direction from locale metadata.
+
+Example:
+
+```html
+<html lang="ar" dir="rtl">
+```
+
+Requirements:
+
+- Use CSS logical properties where practical.
+- Verify navigation, forms, tables, dialogs, and responsive layouts in both directions.
+- Check directional icons individually.
+- Keep code, URLs, email addresses, and similar content readable.
+- Use fonts that support the configured writing systems.
+- Format dates and numbers according to the relevant locale and application rules.
+- Keep locale, timezone, and currency as separate settings.
+
+Ensure third-party interface components also respond to locale changes.
+
+For localized public pages, generate canonical URLs and appropriate alternate-language links from the same URL policy.
+
+## 16. Caching and Background Execution
+
+Include locale and relevant settings revision in translated cache keys.
+
+Invalidate affected translation and settings caches after administrative changes.
+
+Verify the installed Laravel Localization version's documented route-cache integration. Do not assume ordinary route caching works unchanged.
+
+Exercise localized routes with the actual production cache configuration enabled.
+
+Coordinate supported-language and default-locale changes with cached route registration.
+
+For queued notifications and background jobs:
+
+- Resolve the recipient or task locale explicitly.
+- Apply it during rendering.
+- Restore prior locale state afterward.
+- Prevent locale leakage between jobs or requests.
+
+Do not edit `.env` from the administration UI. Use the approved settings mechanism.
+
+## 17. Required Verification
+
+Use the project's existing test framework.
+
+### Public Routing
+
+Verify:
+
+- Unprefixed pages render the default locale.
+- Default-prefixed pages redirect to canonical unprefixed URLs.
+- Secondary prefixes render the correct locale.
+- Queries survive canonical redirects.
+- Browser headers and saved secondary preferences do not override unprefixed URLs.
+- Unknown and inactive locale prefixes follow the defined policy.
+- No redirect loops occur.
+- Submitted form data is not lost through localization redirects.
+- Administration and framework endpoints remain unaffected.
+
+### Translation Catalogs
+
+Verify:
+
+- `lang_path()` resolves to root `lang/`.
+- Required groups and keys exist.
+- Placeholders match.
+- Pluralization and fallbacks work.
+- Existing customizations survive publishing.
+- Any language files published into `public/lang/` have been moved to `lang/` without data loss, and the application no longer loads translations from `public/lang/`.
+
+### Database Content and Forms
+
+Verify:
+
+- Multiple translations round-trip correctly.
+- Editing one locale preserves others.
+- Unsupported locale keys are rejected.
+- Required default-language values are validated.
+- Missing translations are distinguishable from fallbacks.
+- Existing data survives migration.
+- Inactive-language content remains intact.
+
+### Administration
+
+Verify:
+
+- Panel URLs remain unprefixed.
+- Language changes persist through Livewire requests.
+- Text, validation, and direction update correctly.
+- Unsaved multilingual content is preserved.
+- Settings permissions are enforced server-side.
+- Global locale invariants cannot be bypassed.
+- Administrative translation edits appear after cache invalidation.
+- Default-language changes take effect with the deployed route-cache strategy.
+
+Perform browser verification on representative public and administration pages in both RTL and LTR when those directions are configured.
+
+Report which checks actually ran and which remain blocked.
+
+## 18. Ongoing Development Rule
+
+Whenever creating or modifying a user-facing feature:
+
+1. Identify its interface text.
+2. Add stable keys to the appropriate catalogs.
+3. Supply translations for supported locales.
+4. Use canonical localized URLs.
+5. Identify database attributes requiring translated content.
+6. Provide the corresponding locale-aware inputs.
+7. Verify direction, validation, fallback, and persistence.
+8. Extend meaningful behavioral coverage where the feature changes localization behavior.
+
+A multilingual feature is incomplete if its translations, locale handling, or content persistence remain unfinished.
+
+Do not describe generated scaffolding as a completed integration.
+
+## 19. Completion Report
+
+At completion, report:
+
+- Installed package versions and compatibility decisions.
+- Confirmed supported, active, default, and fallback locales.
+- Translation directory configuration.
+- Public URL behavior.
+- Translatable models and multilingual forms.
+- Public and administration switcher behavior.
+- Administrative settings and translation-management capabilities.
+- Verification results.
+- Any concrete migration, deployment, or compatibility limitation.
+
+Do not claim installation, migration, Ajax behavior, testing, or deployment succeeded without corresponding evidence.
+
+## 20. Official Implementation References
+
+Use documentation matching the installed versions:
+
+- Laravel localization:
+  https://laravel.com/docs/localization
+
+- Laravel Localization:
+  https://github.com/mcamara/laravel-localization
+
+- Spatie Laravel Translatable:
+  https://github.com/spatie/laravel-translatable
+
+- Filament:
+  https://filamentphp.com/docs
+
+- Filament Translate Field:
+  https://github.com/solutionforest/filament-translate-field
+
+- Filament Language Switch:
+  https://github.com/bezhanSalleh/filament-language-switch

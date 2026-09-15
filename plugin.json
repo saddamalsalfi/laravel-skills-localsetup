@@ -1,0 +1,23 @@
+{
+  "name": "laravel-engineering-skills",
+  "version": "1.0.0",
+  "description": "Production-ready AI engineering skills, architectural rules, and prompt constraints for the Laravel ecosystem",
+  "author": "Saddam Al-Slfi",
+  "homepage": "https://github.com/saddamalsalfi/skills",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saddamalsalfi/skills.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "skills",
+    "ai-agent",
+    "cursor-rules",
+    "open-plugins",
+    "antigravity",
+    "multilingual",
+    "livewire",
+    "tall-stack"
+  ]
+}
