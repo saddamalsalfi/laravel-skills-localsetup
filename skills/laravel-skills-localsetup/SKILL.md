@@ -1,10 +1,10 @@
 ---
-name: laravel-local-setup
+name: laravel-skills-localsetup
 title: "Laravel 13 Local Development Setup"
 description: "Comprehensive agent workflow for setting up and verifying a local Laravel 13 development environment, starter kits, authentication, database, and AI tooling"
 version: "1.0.0"
 author: "Saddam Al-Slfi"
-repository: "https://github.com/saddamalsalfi/skills"
+repository: "https://github.com/saddamalsalfi/laravel-skills-localsetup"
 license: "MIT"
 created_at: "2026-09-12"
 ---

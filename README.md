@@ -1,10 +1,10 @@
 ---
-name: "laravel-local-setup"
+name: "laravel-skills-localsetup"
 title: "Laravel 13 Local Development Setup & Verification"
 description: "Professional, deterministic AI agent skill and Cursor rule for setting up, configuring, and verifying a local Laravel 13 development environment"
 version: "1.0.0"
 author: "Saddam Al-Slfi"
-repository: "https://github.com/saddamalsalfi/skills"
+repository: "https://github.com/saddamalsalfi/laravel-skills-localsetup"
 license: "MIT"
 created_at: "2026-09-12"
 ---
@@ -13,7 +13,7 @@ created_at: "2026-09-12"
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Open Plugins Compliant](https://img.shields.io/badge/Open%20Plugins-Compliant-success.svg)](https://open-plugins.com)
-[![Cursor Rule](https://img.shields.io/badge/Cursor%20Rule-.mdc-purple.svg)](rules/laravel-local-setup.mdc)
+[![Cursor Rule](https://img.shields.io/badge/Cursor%20Rule-.mdc-purple.svg)](rules/laravel-skills-localsetup.mdc)
 [![Laravel](https://img.shields.io/badge/Laravel-13.x-red.svg)](https://laravel.com)
 
 A battle-tested, production-grade AI agent skill and **Cursor Rule** engineered to guide AI coding assistants (Cursor, Google Antigravity / Gemini, Claude Code, GitHub Copilot, LangChain agents) through configuring, provisioning, and verifying modern **Laravel 13** local development environments with deterministic accuracy and zero hallucinations.
@@ -41,10 +41,10 @@ This repository follows the **[Open Plugins Standard](https://open-plugins.com)*
 
 ```text
 ├── skills/
-│   └── laravel-local-setup/
+│   └── laravel-skills-localsetup/
 │       └── SKILL.md                 # Agent workflow for Antigravity, Claude Code, etc.
 ├── rules/
-│   └── laravel-local-setup.mdc      # Optimized rule for Cursor IDE
+│   └── laravel-skills-localsetup.mdc # Optimized rule for Cursor IDE
 ├── mcp.json                         # Model Context Protocol configuration
 ├── plugin.json                      # Open Plugins manifest
 ├── LICENSE                          # MIT License with explicit AI Agent Grant
@@ -59,24 +59,24 @@ This repository follows the **[Open Plugins Standard](https://open-plugins.com)*
 Copy the `.mdc` rule into your project's `.cursor/rules/` directory:
 ```bash
 mkdir -p .cursor/rules
-curl -o .cursor/rules/laravel-local-setup.mdc https://raw.githubusercontent.com/saddamalsalfi/skills/main/rules/laravel-local-setup.mdc
+curl -o .cursor/rules/laravel-skills-localsetup.mdc https://raw.githubusercontent.com/saddamalsalfi/laravel-skills-localsetup/main/rules/laravel-skills-localsetup.mdc
 ```
 
 ### 2. Google Antigravity / Gemini IDE
 Add the skill into your project's `.agents/skills/` directory:
 ```bash
-mkdir -p .agents/skills/laravel-local-setup
-curl -o .agents/skills/laravel-local-setup/SKILL.md https://raw.githubusercontent.com/saddamalsalfi/skills/main/skills/laravel-local-setup/SKILL.md
+mkdir -p .agents/skills/laravel-skills-localsetup
+curl -o .agents/skills/laravel-skills-localsetup/SKILL.md https://raw.githubusercontent.com/saddamalsalfi/laravel-skills-localsetup/main/skills/laravel-skills-localsetup/SKILL.md
 ```
 
 ### 3. Open Plugins CLI / Package Manager
 Install directly using the repository URL:
 ```bash
-open-plugins install https://github.com/saddamalsalfi/skills
+open-plugins install https://github.com/saddamalsalfi/laravel-skills-localsetup
 ```
 
 ### 4. Claude Code / LangChain Hub / Custom Agents
-Load [`skills/laravel-local-setup/SKILL.md`](skills/laravel-local-setup/SKILL.md) directly into your agent's system prompt or project knowledge base.
+Load [`skills/laravel-skills-localsetup/SKILL.md`](skills/laravel-skills-localsetup/SKILL.md) directly into your agent's system prompt or project knowledge base.
 
 ---
 

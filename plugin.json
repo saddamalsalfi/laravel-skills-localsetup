@@ -1,13 +1,13 @@
 {
-  "name": "laravel-local-setup",
+  "name": "laravel-skills-localsetup",
   "displayName": "Laravel 13 Local Development Setup & Verification",
   "version": "1.0.0",
   "description": "Professional, deterministic AI agent skill and Cursor rule for setting up, configuring, and verifying a local Laravel 13 development environment (Livewire, Teams, Auth, 2FA, Passkeys, Database, AI Tools & MCP).",
   "author": "Saddam Al-Slfi",
-  "homepage": "https://github.com/saddamalsalfi/skills",
+  "homepage": "https://github.com/saddamalsalfi/laravel-skills-localsetup",
   "repository": {
     "type": "git",
-    "url": "https://github.com/saddamalsalfi/skills.git"
+    "url": "https://github.com/saddamalsalfi/laravel-skills-localsetup.git"
   },
   "license": "MIT",
   "keywords": [
@@ -25,9 +25,9 @@
     "developer-environment"
   ],
   "skills": [
-    "skills/laravel-local-setup/SKILL.md"
+    "skills/laravel-skills-localsetup/SKILL.md"
   ],
   "rules": [
-    "rules/laravel-local-setup.mdc"
+    "rules/laravel-skills-localsetup.mdc"
   ]
 }
