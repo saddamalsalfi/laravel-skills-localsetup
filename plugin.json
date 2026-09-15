@@ -1,7 +1,8 @@
 {
-  "name": "laravel-engineering-skills",
+  "name": "laravel-local-setup",
+  "displayName": "Laravel 13 Local Development Setup & Verification",
   "version": "1.0.0",
-  "description": "Production-ready AI engineering skills, architectural rules, and prompt constraints for the Laravel ecosystem",
+  "description": "Professional, deterministic AI agent skill and Cursor rule for setting up, configuring, and verifying a local Laravel 13 development environment (Livewire, Teams, Auth, 2FA, Passkeys, Database, AI Tools & MCP).",
   "author": "Saddam Al-Slfi",
   "homepage": "https://github.com/saddamalsalfi/skills",
   "repository": {
@@ -11,13 +12,22 @@
   "license": "MIT",
   "keywords": [
     "laravel",
-    "skills",
-    "ai-agent",
+    "laravel-13",
     "cursor-rules",
     "open-plugins",
+    "ai-agents",
     "antigravity",
-    "multilingual",
+    "claude-code",
     "livewire",
-    "tall-stack"
+    "starter-kit",
+    "php",
+    "local-setup",
+    "developer-environment"
+  ],
+  "skills": [
+    "skills/laravel-local-setup/SKILL.md"
+  ],
+  "rules": [
+    "rules/laravel-local-setup.mdc"
   ]
 }

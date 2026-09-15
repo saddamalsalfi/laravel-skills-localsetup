@@ -1,6 +1,7 @@
 ---
-name: "AI Engineering Skills & Instruction Prompts"
-description: "A curated collection of production-grade AI system prompts, skills, and architectural rules designed for AI coding assistants"
+name: "laravel-local-setup"
+title: "Laravel 13 Local Development Setup & Verification"
+description: "Professional, deterministic AI agent skill and Cursor rule for setting up, configuring, and verifying a local Laravel 13 development environment"
 version: "1.0.0"
 author: "Saddam Al-Slfi"
 repository: "https://github.com/saddamalsalfi/skills"
@@ -8,78 +9,102 @@ license: "MIT"
 created_at: "2026-09-12"
 ---
 
-# AI Engineering Skills & Instruction Prompts 🧠⚙️
+# Laravel 13 Local Development Setup & Verification 🐘⚡
 
-A curated collection of production-grade AI system prompts, skills, and architectural rules designed for AI coding assistants (such as Cursor Rules, Claude Projects, Windsurf, GitHub Copilot, and Google Antigravity / Gemini).
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Open Plugins Compliant](https://img.shields.io/badge/Open%20Plugins-Compliant-success.svg)](https://open-plugins.com)
+[![Cursor Rule](https://img.shields.io/badge/Cursor%20Rule-.mdc-purple.svg)](rules/laravel-local-setup.mdc)
+[![Laravel](https://img.shields.io/badge/Laravel-13.x-red.svg)](https://laravel.com)
 
-These instructions guide Large Language Models (LLMs) to produce robust, secure, and production-ready code while strictly avoiding common architectural pitfalls, security flaws, and hallucinated patterns.
+A battle-tested, production-grade AI agent skill and **Cursor Rule** engineered to guide AI coding assistants (Cursor, Google Antigravity / Gemini, Claude Code, GitHub Copilot, LangChain agents) through configuring, provisioning, and verifying modern **Laravel 13** local development environments with deterministic accuracy and zero hallucinations.
+
+Optimized for submission to **[cursor.directory](https://cursor.directory)**, **[LangChain Hub](https://smith.langchain.com/hub)**, and **[Open Plugins](https://open-plugins.com)**.
 
 ---
 
-## 📂 Repository Structure
+## 🎯 What This Skill Solves
 
-The repository strictly adheres to the **[Open Plugins Standard](https://open-plugins.com)** and Agent Customization specifications, ensuring automatic discovery across Cursor, Google Antigravity, Claude Code, GitHub Copilot, and other agent platforms:
+Standard AI models frequently fail when provisioning local Laravel projects: they hallucinate outdated artisan commands, ignore host vs. container environments, corrupt database configs, and miss vital 2FA or Livewire requirements.
+
+This skill forces the AI agent to follow a strict, deterministic, step-by-step engineering protocol:
+- **Runtime Pre-flight & Discovery:** Probes the operating system (Host, WSL2, Docker, remote container) before executing commands; asks for explicit confirmation before installing tools.
+- **Modern Laravel 13 Stack:** Scaffolds starter kits with **Livewire Single-File Components (SFC)**, Team management, and Tailwind CSS.
+- **Complete Auth & Security:** Integrates registration, email verification, two-factor authentication (2FA), passkeys, and test user seeders.
+- **AI Coding Integration:** Out-of-the-box setup for Laravel Boost, coding agent guidelines, and MCP server configuration.
+- **Deterministic Health Checks:** Verifies dev servers (`artisan serve`, `npm run dev`), database connections, and resolves port collisions safely.
+
+---
+
+## 📂 Repository Structure (Open Plugins Standard)
+
+This repository follows the **[Open Plugins Standard](https://open-plugins.com)** for plug-and-play installation across agent platforms:
 
 ```text
 ├── skills/
-│   ├── laravel-multilingual/
-│   │   └── SKILL.md
 │   └── laravel-local-setup/
-│       └── SKILL.md
+│       └── SKILL.md                 # Agent workflow for Antigravity, Claude Code, etc.
 ├── rules/
-│   ├── laravel-multilingual.mdc
-│   └── laravel-local-setup.mdc
-├── mcp.json
-├── plugin.json
-├── LICENSE
-└── README.md
+│   └── laravel-local-setup.mdc      # Optimized rule for Cursor IDE
+├── mcp.json                         # Model Context Protocol configuration
+├── plugin.json                      # Open Plugins manifest
+├── LICENSE                          # MIT License with explicit AI Agent Grant
+└── README.md                        # Documentation and usage guides
 ```
 
 ---
 
-## 📦 Available Skills & Rules
+## 🚀 Quick Start & Installation
 
-### 🐘 Laravel Ecosystem
-
-| Skill (Open Plugins / Agents) | Cursor Rule (.mdc) | Description | Target |
-| --- | --- | --- | --- |
-| [**laravel-multilingual**](./skills/laravel-multilingual/SKILL.md) | [**laravel-multilingual.mdc**](./rules/laravel-multilingual.mdc) | Full-lifecycle internationalization (i18n) and localization (L10n). Covers prefix routing via `mcamara/laravel-localization`, strict Filament admin panel isolation, queue-safe locale resets, and translatable Eloquent models. | Laravel 10 / 11 / 12 / 13 |
-| [**laravel-local-setup**](./skills/laravel-local-setup/SKILL.md) | [**laravel-local-setup.mdc**](./rules/laravel-local-setup.mdc) | Comprehensive, deterministic workflow to prepare and verify a local Laravel 13 development environment. Configures starter kits (Livewire SFC / Teams), authentication (2FA, passkeys), database engines, and AI coding agent integration (GitHub Copilot, Cursor, MCP). | Laravel 13.x |
-
----
-
-## 🚀 How to Use
-
-### 1. Open Plugins & Agent Discovery (Automatic)
-Because this repository follows the Open Plugins standard (`skills/*/SKILL.md`, `rules/*.mdc`, `mcp.json`, `plugin.json`), tools that support Open Plugins can automatically discover and install all skills directly from the repository URL.
-
-### 2. Cursor IDE
-Copy the ready-made `.mdc` rules from the `rules/` directory into your project's `.cursor/rules/`:
+### 1. Cursor IDE (via `cursor.directory` or local)
+Copy the `.mdc` rule into your project's `.cursor/rules/` directory:
 ```bash
 mkdir -p .cursor/rules
-cp path/to/rules/*.mdc .cursor/rules/
+curl -o .cursor/rules/laravel-local-setup.mdc https://raw.githubusercontent.com/saddamalsalfi/skills/main/rules/laravel-local-setup.mdc
 ```
 
-### 3. Google Antigravity / Gemini IDE
-Copy or link the skill directories directly into your workspace's `.agents/skills/` directory:
+### 2. Google Antigravity / Gemini IDE
+Add the skill into your project's `.agents/skills/` directory:
 ```bash
-mkdir -p .agents/skills
-cp -r path/to/skills/* .agents/skills/
+mkdir -p .agents/skills/laravel-local-setup
+curl -o .agents/skills/laravel-local-setup/SKILL.md https://raw.githubusercontent.com/saddamalsalfi/skills/main/skills/laravel-local-setup/SKILL.md
 ```
 
-### 4. GitHub Copilot / Claude Projects
-Reference or upload any `SKILL.md` directly into `.github/copilot-instructions.md` or Claude Project Knowledge.
+### 3. Open Plugins CLI / Package Manager
+Install directly using the repository URL:
+```bash
+open-plugins install https://github.com/saddamalsalfi/skills
+```
+
+### 4. Claude Code / LangChain Hub / Custom Agents
+Load [`skills/laravel-local-setup/SKILL.md`](skills/laravel-local-setup/SKILL.md) directly into your agent's system prompt or project knowledge base.
+
+---
+
+## 📋 Execution Phases Overview
+
+When activated, the agent executes the following stages in order:
+
+| Phase | Description | Key Deliverables |
+| :--- | :--- | :--- |
+| **1. Runtime Discovery** | Inspects host OS, WSL distribution, PHP 8.2+, Composer, Node.js, and DB engines | Pre-flight compatibility matrix |
+| **2. Scaffolding** | Creates starter-kit Laravel 13 app with single-file components | Clean app skeleton & git init |
+| **3. Database & Cache** | Provisions MySQL / PostgreSQL / SQLite, configures `.env`, runs migrations | Verified database connection |
+| **4. Auth & Security** | Configures Fortify / starter auth with 2FA, passkeys, and seeded accounts | Working authentication suite |
+| **5. AI Tooling** | Sets up guidelines, MCP configuration, and agent instructions | Optimized developer workflow |
+| **6. Verification** | Boots dev servers, tests endpoints, performs end-to-end smoke check | Verified working URLs & ports |
 
 ---
 
 ## 🛡️ Guiding Principles
 
-1. **Production-Ready over Toy Demos:** Every rule is designed for real-world production environments, accounting for race conditions, security, and edge cases.
-2. **Zero Hallucination Tolerance:** Exact command flags, correct directory structures, and verified framework conventions.
-3. **Idempotency & Safety:** Scripts and steps avoid destructive actions and always confirm before installing software or executing risky operations.
+1. **Safety First:** Never overwrite existing files, databases, or environment variables without explicit user authorization.
+2. **Deterministic Outputs:** Every command flag is verified against official Laravel 13 release specifications.
+3. **Reproducibility:** Generates reproducible scripts and idempotent configurations suitable for solo devs and teams.
 
 ---
 
-## 📄 License & Ownership
+## 📄 License & Attribution
 
-This project is authored by **Saddam Al-Slfi** and licensed under the [MIT License](LICENSE). It is open source and freely available for use, reproduction, modification, and integration by human developers, automated systems, and all Artificial Intelligence (AI) agents and models.
+Authored by **Saddam Al-Slfi** ([@saddamalsalfi](https://github.com/saddamalsalfi)).
+
+This repository is licensed under the **[MIT License](LICENSE)** with a **Special Grant for Artificial Intelligence (AI) Agents & Automated Systems**, permitting free ingestion, adaptation, and execution by all AI agents and developers.
