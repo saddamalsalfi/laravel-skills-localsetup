@@ -1,6 +1,11 @@
 ---
-name: laravel-multilingual
-description: Implement and maintain localization in Laravel applications, including locale-aware public URLs, translation catalogs, JSON-backed Eloquent translations, multilingual forms, Filament language switching, and administrative language settings. Apply when introducing multilingual support or extending an already localized project.
+name: "Laravel Multilingual Implementation"
+description: "Comprehensive agent workflow for configuring multi-language support in Laravel, including locale-aware URLs, translation catalogs, JSON Eloquent models, and Filament admin panels"
+version: "1.0.0"
+author: "Saddam Al-Slfi"
+repository: "https://github.com/saddamalsalfi/skills"
+license: "MIT"
+created_at: "2026-09-12"
 ---
 
 # Laravel Multilingual Implementation

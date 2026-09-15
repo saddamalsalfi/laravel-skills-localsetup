@@ -1,3 +1,13 @@
+---
+name: "AI Engineering Skills & Instruction Prompts"
+description: "A curated collection of production-grade AI system prompts, skills, and architectural rules designed for AI coding assistants"
+version: "1.0.0"
+author: "Saddam Al-Slfi"
+repository: "https://github.com/saddamalsalfi/skills"
+license: "MIT"
+created_at: "2026-09-12"
+---
+
 # AI Engineering Skills & Instruction Prompts 🧠⚙️
 
 A curated collection of production-grade AI system prompts, skills, and architectural rules designed for AI coding assistants (such as Cursor Rules, Claude Projects, Windsurf, GitHub Copilot, and Google Antigravity / Gemini).
@@ -61,3 +71,9 @@ Upload the Markdown skill file directly into the project's knowledge base or att
 1. **Production-Ready over Toy Demos:** Every rule is designed for real-world production environments, accounting for race conditions, security, and edge cases.
 2. **Zero Hallucination Tolerance:** Exact command flags, correct directory structures, and verified framework conventions.
 3. **Idempotency & Safety:** Scripts and steps avoid destructive actions and always confirm before installing software or executing risky operations.
+
+---
+
+## 📄 License & Ownership
+
+This project is authored by **Saddam Al-Slfi** and licensed under the [MIT License](LICENSE). It is open source and freely available for use, reproduction, modification, and integration by human developers, automated systems, and all Artificial Intelligence (AI) agents and models.

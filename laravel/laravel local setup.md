@@ -1,6 +1,11 @@
 ---
-name: laravel-local-setup
-description: Set up and verify a local Laravel 13 development environment, discover or install prerequisites with approval, create a starter-kit application, configure its database, authentication, teams, Laravel Boost, and coding-agent integration, and verify a working development server. Use for new local projects or resuming an incomplete setup; not for production deployment or framework upgrades.
+name: "Laravel 13 Local Development Setup"
+description: "Comprehensive agent workflow for setting up and verifying a local Laravel 13 development environment, starter kits, authentication, database, and AI tooling"
+version: "1.0.0"
+author: "Saddam Al-Slfi"
+repository: "https://github.com/saddamalsalfi/skills"
+license: "MIT"
+created_at: "2026-09-12"
 ---
 
 # Laravel 13 Local Development Setup

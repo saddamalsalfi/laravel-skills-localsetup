@@ -1,3 +1,13 @@
+---
+name: "Laravel AI Skills Catalog"
+description: "Production-ready AI engineering skills, architectural rules, and prompt constraints for the Laravel and TALL stack ecosystem"
+version: "1.0.0"
+author: "Saddam Al-Slfi"
+repository: "https://github.com/saddamalsalfi/skills"
+license: "MIT"
+created_at: "2026-09-12"
+---
+
 # Laravel AI Skills & Architecture Rules 🐘
 
 This directory contains production-ready guidelines, constraints, and architecture instructions tailored specifically for modern **Laravel** applications and the **TALL stack** (Tailwind CSS, Alpine.js, Laravel, Livewire) including **Filament**.
@@ -48,3 +58,9 @@ Attach or reference the markdown file directly in your workspace instructions or
 - For **Antigravity / Gemini IDE**: Place inside `.agents/skills/<skill-name>/SKILL.md` or invoke as project instruction.
 - For **Claude Projects**: Upload the skill file into the Project Knowledge base.
 - For **GitHub Copilot**: Add to `.github/copilot-instructions.md` or reference in workspace chat.
+
+---
+
+## 📄 License & Attribution
+
+Authored by **Saddam Al-Slfi**. Released under the [MIT License](../LICENSE). Permitted for use by developers and all AI agents.
