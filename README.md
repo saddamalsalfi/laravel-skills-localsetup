@@ -46,6 +46,9 @@ This repository follows the **[Open Plugins Standard](https://open-plugins.com)*
 │       └── SKILL.md                 # Agent workflow for Antigravity, Claude Code, etc.
 ├── rules/
 │   └── laravel-skills-localsetup.mdc # Optimized rule for Cursor IDE
+├── server.py                        # Universal FastMCP executable server
+├── requirements.txt                 # Pinned dependencies for MCP runtime
+├── Dockerfile                       # Multi-platform OCI rootless container
 ├── mcp.json                         # Model Context Protocol configuration
 ├── plugin.json                      # Open Plugins manifest
 ├── LICENSE                          # MIT License with explicit AI Agent Grant
@@ -78,6 +81,27 @@ open-plugins install https://github.com/saddamalsalfi/laravel-skills-localsetup
 
 ### 4. Claude Code / LangChain Hub / Custom Agents
 Load [`skills/laravel-skills-localsetup/SKILL.md`](skills/laravel-skills-localsetup/SKILL.md) directly into your agent's system prompt or project knowledge base.
+
+### 5. Universal Executable MCP Server (Claude Desktop, Cursor, Smithery)
+This skill runs natively as an executable Model Context Protocol (MCP) server exposing resources (`skill://content`) and tools (`get_guidelines`):
+
+**Claude Desktop Configuration (`claude_desktop_config.json`):**
+```json
+{
+  "mcpServers": {
+    "laravel-skills-localsetup": {
+      "command": "python",
+      "args": ["/path/to/laravel-skills-localsetup/server.py"]
+    }
+  }
+}
+```
+
+**Docker Container Run:**
+```bash
+docker build -t laravel-skills-localsetup .
+docker run -i --rm laravel-skills-localsetup
+```
 
 ---
 

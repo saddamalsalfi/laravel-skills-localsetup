@@ -1,4 +1,8 @@
 {
-  "$schema": "https://json.schemastore.org/mcp-settings.json",
-  "mcpServers": {}
+  "$schema": "https://json.schemastore.org/mcp-server.json",
+  "name": "laravel-skills-localsetup",
+  "description": "Deterministic MCP server exposing domain guidelines and agent tools for Laravel 13 local development setup.",
+  "command": "python",
+  "args": ["server.py"],
+  "transport": "stdio"
 }
