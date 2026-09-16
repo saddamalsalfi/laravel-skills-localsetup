@@ -11,6 +11,7 @@ created_at: "2026-09-12"
 
 # Laravel 13 Local Development Setup & Verification 🐘⚡
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22781072.svg)](https://doi.org/10.5281/zenodo.22781072)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Open Plugins Compliant](https://img.shields.io/badge/Open%20Plugins-Compliant-success.svg)](https://open-plugins.com)
 [![Cursor Rule](https://img.shields.io/badge/Cursor%20Rule-.mdc-purple.svg)](rules/laravel-skills-localsetup.mdc)
