@@ -3,3 +3,11 @@ Thumbs.db
 .idea/
 .vscode/
 test/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+venv/
